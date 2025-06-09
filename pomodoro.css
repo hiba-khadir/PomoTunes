@@ -1,0 +1,71 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    min-height: 100vh;
+    background-image: url(icons/background2.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+
+/*header styles*/
+nav{ 
+    position: sticky; 
+    width: 60%;
+    min-width:fit-content;
+    margin: 1rem auto 0 auto;
+    background-color: rgb(245, 245, 245);
+    display: flex;
+    opacity: 85%;
+    padding: 0.5rem 1rem;
+    
+}
+nav ul{
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;  
+    gap: 2rem;  
+}
+
+.elmnt{
+    display: flex;
+    align-items: center;
+}
+nav li:first-child{
+    margin-right: auto;
+}
+nav li:last-child{
+    margin-left: auto;
+}
+
+.logo{
+    display: flex;
+    align-items: center;
+}
+.logo-img{
+    height: 2rem;
+}
+.sign-in-button{
+    padding: 0.5rem 1rem;
+    border-width: 0;
+    background-color: #98d486;
+    
+}
+
+.music-icon{
+    height:2rem;
+    margin-right: 0.5rem;
+}
+.pic-icon{
+    height:1.5rem;
+    margin-right: 0.5rem;
+}
+.sun-mn-icon{
+    height: 1.6rem;
+    margin-right: 0.5rem;
+}
