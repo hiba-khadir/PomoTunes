@@ -39,28 +39,130 @@
 </nav> 
 
 <main>
-    <div class="main-sqr">
-        <div class="count">#1</div>
+    <div class="timer-panel">
+        <div class="main-sqr">
+            <div class="count">#1</div>
 
-        <div class="circle">
-            <div class="ring">
-                <div class="timer">21:00</div>
-                <img class="pause-icon" src="icons/211871_pause_icon.svg"></button>
-            </div>          
-        </div> 
+            <div class="circle">
+                <div class="ring">
+                    <div class="timer">21:00</div>
+                    <img class="pause-icon" src="icons/211871_pause_icon.svg"></button>
+                </div>          
+            </div> 
 
-        <div class="control">
-            <button class="settings"><img class="settings-icn" src="icons/settings.svg"></button>
-            <button class="reset"><img class="reset-icn" src="icons/9855519_reset_reload_sync_update_icon.svg"></button>
-            <button class="show-tsk">Tasks</button>            
+            <div class="control">
+                <button class="settings"><img class="settings-icn" src="icons/settings.svg"></button>
+                <button class="reset"><img class="reset-icn" src="icons/9855519_reset_reload_sync_update_icon.svg"></button>
+                <button class="show-tsk">Tasks</button>            
+            </div>
+        </div>
+
+        <div class="control-cycle">
+            <button class="cycle">short break</button>
+            <button class="cycle">focus</button>
+            <button class="cycle">long break</button>
         </div>
     </div>
+    
+    <!--task list panel and related settings-->
+    <div class="task-panel">
+        <div class="main-list">
+            <div class="tasks-control">
+                <div>Tasks</div>
+                <div class="buttons">
+                    <div class="tsk-button"></div>
+                    <div class="tsk-button"></div>
+                </div>
+            </div> 
 
-    <div class="control-cycle">
-        <button class="cycle">short break</button>
-        <button class="cycle">focus</button>
-        <button class="cycle">long break</button>
+            <div class="separator"></div>  
+            <div class="task-list">
+                <div class="task">
+                    <button class="check-button"><img class="check-box" src="icons/check-box-off.svg"></button>
+                    <div class="task-content">hunt a bird</div>
+                    <button class="param-button"><img class="param-icon"></button>
+                    <div class="pomos-count">5/7</div>
+                </div>
+                <div class="separator"></div>
+                <div class="add-task">Add a task</div> 
+
+                <div class="add-control">
+                    <input class="task-input" type="text" placeholder="What are you working on ?">
+                    <div class="est">Estimated cycles</div>
+                    <div>
+                        <input type="number" class="num-put">
+                        <button class="up-down">up</button>
+                        <button class="up-down">down</button>
+                        <div class="cs-buttons">
+                            <button class="cancel">cancel</button>
+                            <button class="save">save</button>
+                        </div>
+                    </div>
+                </div> 
+            </div>             
+        </div>
     </div>
 </main>
+
+<!--settings page (modal)-->
+<div class="overlay" id="settings-overlay">
+
+    <div class="settings-page">
+        <div>Settings</div>
+        <div class="sep"></div>
+        <div class="timer-sett">
+            <div>Timer</div>
+            <div class="set-time">
+                <div>
+                    Pomodoro
+                    <input type="number" class="time-input">
+                </div>
+                <div>
+                    short break
+                    <input type="number" class="time-input">
+                </div>
+                <div>
+                    long break
+                    <input type="number" class="time-input">
+                </div>                            
+            </div>
+
+            <div class="set-container">
+                <div>Auto start breaks</div>
+                <img class="toggle" >
+                <div>Auto start pomodoros</div>
+                <img class="toggle" >
+                <div>long break interval</div>
+                <input type="number" class="time-input">
+            </div>
+        </div>
+        <div class="sep"></div>
+        <div class="task-sett">
+            <div class="set-container">
+                <div>Auto check tasks</div>
+                <img class="toggle" >
+                <div>Auto switch tasks</div>
+                <img class="toggle" >
+            </div>
+        </div>
+    </div>
+</div>
+<!--background picker-->
+<div class="overlay" id="background-overlay">
+    <div class="background-page">
+        <div class="elmnt">
+            <img class="pic-icon" src="icons\image-picture-svgrepo-com.svg">
+            <p>Background</p>
+        </div>
+        <div class="sep"></div>
+        <div class="Background-container">
+            <img class="bground" src="backgrounds/background.png">
+            <img class="bground" src="backgrounds/background2.png">
+            <div id="upload">
+                <img id="uld-icon" src="icons/upload-svgrepo-com.svg">
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
