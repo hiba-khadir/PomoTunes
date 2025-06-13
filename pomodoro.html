@@ -45,14 +45,17 @@
 
             <div class="circle">
                 <div class="ring">
-                    <div class="timer">21:00</div>
-                    <img class="pause-icon" src="icons/211871_pause_icon.svg"></button>
+                    <div id="timer">21:00</div>
+                    <div id="pause-cont">
+                        <img id="play-icon" src="icons\\play.svg" onclick="unpauseTimer();">
+                        <img id="pause-icon" src="icons\\pause.svg" onclick="pauseTimer();">
+                    </div>
                 </div>          
             </div> 
 
             <div class="control">
                 <button class="settings"><img class="settings-icn" src="icons/settings.svg"></button>
-                <button class="reset"><img class="reset-icn" src="icons/9855519_reset_reload_sync_update_icon.svg"></button>
+                <button class="reset" onclick="reset();"><img class="reset-icn" src="icons/9855519_reset_reload_sync_update_icon.svg"></button>
                 <button class="show-tsk">Tasks</button>            
             </div>
         </div>
@@ -165,4 +168,8 @@
     </div>
 </div>
 </body>
+<script>
+    timerElmnt = document.getElementById('timer');
+    timerElmnt.innerHTML = `${String(timer.min).padStart(2, '0')} : ${String(timer.sec).padStart(2, '0')}`;
+</script>
 </html>

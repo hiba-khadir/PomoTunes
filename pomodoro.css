@@ -112,19 +112,31 @@ main{
     justify-content: center;
     align-items: center;
 }
-.pause-icon{
+#pause-cont{
+    position: absolute;
+    display: none;
+    justify-content: center;
+    align-items: center;  
+}
+#pause-icon , #play-icon{
     visibility: hidden;
     opacity: 0;
     height: 56px;
     transition: 0.1s ease, 0.5s ease;
-    position: absolute;
 }
-
-.circle:hover .pause-icon{
+#pause-icon{
+    display: none;
+}
+.ring:hover #pause-icon , .ring:hover #play-icon{ 
     opacity: 1;  
     visibility: visible;
 }
-.circle:hover .timer{
+.ring:hover #pause-cont{
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+.ring:hover #timer{
     display: none;
 }
 
@@ -137,7 +149,7 @@ main{
     justify-content: center;
     align-items: center;
 }
-.timer{
+#timer{
     font-size: 40px;
     transition: 0.4s ease, 0.4s ease;
 }
