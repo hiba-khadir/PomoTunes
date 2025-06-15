@@ -279,15 +279,15 @@ main{
 .add-task:hover{
     background-color: rgb(216, 215, 215);
 }
-.add-control{
-    display: flex;
+#add-control{
+    display: none;
     flex-direction: column;
     width: 100%;
     background-color: #f6f6f6;
     padding-top: 1rem ;
     border-radius: 15%;
 }
-.task-input{
+#task-input{
     border-width: 0 ;
     padding: 0.8rem 0.8rem;
     margin: 0.2rem 0 0.5rem 0;
@@ -362,7 +362,9 @@ main{
   border-radius: 10px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
-/* Section titles like "Timer" or "Task" */
+.close-icn{
+    height: 32px;
+}
 .timer-sett > div:first-child,
 .task-sett::before {
   font-weight: bold;
