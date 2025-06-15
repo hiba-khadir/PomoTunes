@@ -49,3 +49,8 @@ function reset(){
     pauseTimer();
     renderTimer();
 }
+
+function showTasks() {
+    let panel = document.getElementById('task-panel');
+    panel.style.display = "flex";
+}

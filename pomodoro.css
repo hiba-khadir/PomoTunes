@@ -159,7 +159,7 @@ main{
     justify-content: space-between;
     width:60%;
 }
-.pause ,.show-tsk, .settings , .reset{
+#show-tsk, #settings , #reset{
     height: 60px;
     width: 60px;
     border-radius: 50%;
@@ -191,7 +191,7 @@ main{
 
 /*onclick of show tasks : tasks styles */
 
-.task-panel{
+#task-panel{
     display: none;
 }
 .main-list{

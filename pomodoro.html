@@ -54,9 +54,9 @@
             </div> 
 
             <div class="control">
-                <button class="settings"><img class="settings-icn" src="icons/settings.svg"></button>
-                <button class="reset" onclick="reset();"><img class="reset-icn" src="icons/9855519_reset_reload_sync_update_icon.svg"></button>
-                <button class="show-tsk">Tasks</button>            
+                <button id="settings"><img class="settings-icn" src="icons/settings.svg"></button>
+                <button id="reset" onclick="reset();"><img class="reset-icn" src="icons/9855519_reset_reload_sync_update_icon.svg"></button>
+                <button id="show-tsk" onclick="showTasks();">Tasks</button>            
             </div>
         </div>
 
@@ -68,7 +68,7 @@
     </div>
     
     <!--task list panel and related settings-->
-    <div class="task-panel">
+    <div id="task-panel">
         <div class="main-list">
             <div class="tasks-control">
                 <div>Tasks</div>
