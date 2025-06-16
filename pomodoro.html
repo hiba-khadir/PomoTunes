@@ -35,7 +35,7 @@
 <main>
     <div class="timer-panel">
         <div class="main-sqr">
-            <div class="count">#1</div>
+            <div id="count">#1</div>
             <div class="circle">
                 <div class="ring">
                     <div id="timer">21:00</div>
@@ -52,9 +52,9 @@
             </div>
         </div>
         <div class="control-cycle">
-            <button class="cycle" id="sb" onclick="timer.switchToSB()">short break</button>
-            <button class="cycle" id="fc" onclick="timer.currCycle = 0; timer.reset()">focus</button>
-            <button class="cycle" id="lb" onclick="timer.currCycle = 2; timer.reset()">long break</button>
+            <button class="cycle" id="sb" onclick="timer.currCycle = 1; timer.reset();">short break</button>
+            <button class="cycle" id="fc" onclick="timer.currCycle = 0; timer.reset();timer.pomoCount++;">focus</button>
+            <button class="cycle" id="lb" onclick="timer.currCycle = 2; timer.reset();">long break</button>
         </div>
     </div>
     <div id="task-panel">
@@ -80,12 +80,12 @@
                     <input id="task-input" type="text" placeholder="What are you working on ?">
                     <div class="est">Estimated cycles</div>
                     <div>
-                        <input type="number" class="num-put">
+                        <input type="number" id="num-put">
                         <button class="up-down">up</button>
                         <button class="up-down">down</button>
                         <div class="cs-buttons">
-                            <button class="cancel">cancel</button>
-                            <button class="save">save</button>
+                            <button class="cancel" onclick="taskManager.cancel();">cancel</button>
+                            <button class="save" onclick="taskManager.save();">save</button>
                         </div>
                     </div>
                 </div>
