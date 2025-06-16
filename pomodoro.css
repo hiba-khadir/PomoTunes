@@ -237,7 +237,7 @@ main{
     background-color: rgba(138, 138, 138, 0.7);
     margin-left: 8px;
 }
-.task-list{
+#task-list{
     display: flex;
     flex-direction: column;
     justify-content: center;

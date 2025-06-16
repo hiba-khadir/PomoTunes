@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="separator"></div>
-            <div class="task-list">
+            <div id ="task-list">
                 <div class="task">
                     <button class="check-button"><img class="check-box" src="icons/check-box-off.svg"></button>
                     <div class="task-content">hunt a bird</div>
@@ -85,7 +85,7 @@
                         <button class="up-down">down</button>
                         <div class="cs-buttons">
                             <button class="cancel" onclick="taskManager.cancel();">cancel</button>
-                            <button class="save" onclick="taskManager.save();">save</button>
+                            <button class="save" onclick="taskManager.save();taskManager.render();">save</button>
                         </div>
                     </div>
                 </div>

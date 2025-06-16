@@ -10,7 +10,6 @@ const settings = {
 
 // Timer functionality
 const timer = {
-
   //params and status of the timer  
   pomoCount: 0,
   currCycle: 0,
@@ -100,6 +99,7 @@ const timer = {
 // Task management functionality
 const taskManager = {
   tskShown: 0,
+  tskSaved: 0,
   taskList: [],
 
   toggle() {
@@ -137,19 +137,71 @@ const taskManager = {
         controlElmnt.style.display = "none";
         taskInput.value = '';
         pomoNum.value = '' ;
+        this.tskSaved = 1;
+    }else{
+      this.saved = 0 ;
     }    
   },
   
   cancel(){
-    alert('progress will be lost');
     let controlElmnt = document.getElementById("add-control");
     controlElmnt.style.display = "none";
     taskInput.value = '';
     pomoNum.value = '' ; 
-  }
+    this.tskSaved = 0;
+  },
 
+  render(){
+    console.log(this.tskSaved);
+    console.log(this.taskList);
+    if (this.tskSaved) {
+      let listElmnt = document.getElementById('task-list');
+      listElmnt.innerHTML = '';
+      let element ;
+      for (let i = 0; i< taskManager.taskList.length; i++) {   
+        element = taskManager.taskList[i];  
+        listElmnt.innerHTML += `<div class="task">
+                                  <button class="check-button" onclick="taskManager.checkTask(this);">
+                                    <img class="check-box" src="icons/check-box-off.svg">
+                                  </button>
+                                  <div class="task-content">${element[0]}</div>
+                                  <button class="param-button"><img class="param-icon"></button>
+                                  <div class="pomos-count">${element[1]}</div>
+                                </div>
+                                <div class="separator"></div>`
+      }
+      listElmnt.innerHTML += `<div class="add-task" id="add-task-btn" onclick="taskManager.add()">Add a task</div>
+                                <div id="add-control">
+                                    <input id="task-input" type="text" placeholder="What are you working on ?">
+                                    <div class="est">Estimated cycles</div>
+                                    <div>
+                                        <input type="number" id="num-put">
+                                        <button class="up-down">up</button>
+                                        <button class="up-down">down</button>
+                                        <div class="cs-buttons">
+                                            <button class="cancel" onclick="taskManager.cancel();">cancel</button>
+                                            <button class="save" onclick="taskManager.save();taskManager.render();">save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+    }
+  },
+
+  checkTask(button){
+    const checkBox = button.querySelector('.check-box');
+    if(
+        checkBox.src.endsWith('icons/check-box-on.svg')){ //if on turn off
+        checkBox.src = 'icons/check-box-off.svg';
+    }
+
+    else if(checkBox.src.endsWith('icons/check-box-off.svg')){
+        checkBox.src = 'icons/check-box-on.svg'; //if off turn on 
+    }
+
+}
+    
 };
-
 
 const ui = {
   showSettings() {
