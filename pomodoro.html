@@ -68,13 +68,6 @@
             </div>
             <div class="separator"></div>
             <div id ="task-list">
-                <div class="task">
-                    <button class="check-button"><img class="check-box" src="icons/check-box-off.svg"></button>
-                    <div class="task-content">hunt a bird</div>
-                    <button class="param-button"><img class="param-icon"></button>
-                    <div class="pomos-count">5/7</div>
-                </div>
-                <div class="separator"></div>
                 <div class="add-task" id="add-task-btn" onclick="taskManager.add()">Add a task</div>
                 <div id="add-control">
                     <input id="task-input" type="text" placeholder="What are you working on ?">
@@ -103,21 +96,34 @@
         <div class="timer-sett">
             <div>Timer</div>
             <div class="set-time">
-                <div>Pomodoro <input type="number" class="time-input"></div>
-                <div>short break <input type="number" class="time-input"></div>
-                <div>long break <input type="number" class="time-input"></div>
+                <div>Pomodoro <input type="number" class="time-input" onclick="settings.setCycleDur(this,0)"></div>
+                <div>short break <input type="number" class="time-input" onclick="settings.setCycleDur(this,1)"></div>
+                <div>long break <input type="number" class="time-input" onclick="settings.setCycleDur(this,2)"></div>
             </div>
             <div class="set-container">
-                <div>Auto start breaks</div><img class="toggle">
-                <div>Auto start pomodoros</div><img class="toggle">
-                <div>long break interval</div><input type="number" class="time-input">
+                <div>Auto start breaks</div>
+                <button class="toggle-btn" onclick="settings.toggle(this.firstElementChild);settings.setBool('autoStrtBrk'); " >
+                    <img class="toggle" src="icons/toggle-off.svg">
+                </button>
+
+                <div>Auto start pomodoros</div>
+                <button class="toggle-btn" onclick="settings.toggle(this.firstElementChild);settings.setBool('autoStrtPomo'); " >
+                    <img class="toggle" src="icons/toggle-off.svg">
+                </button>
+                <div>long break interval</div><input type="number" class="time-input" onclick="settings.setLbInt(this)">
             </div>
         </div>
         <div class="sep"></div>
         <div class="task-sett">
             <div class="set-container">
-                <div>Auto check tasks</div><img class="toggle">
-                <div>Auto switch tasks</div><img class="toggle">
+                <div>Auto check tasks</div>
+                <button class="toggle-btn" onclick="settings.toggle(this.firstElementChild);settings.setBool('autoCheckTsk');" >
+                    <img class="toggle" src="icons\toggle-off.svg">
+                </button>
+                <div>Auto switch tasks</div>
+                <button class="toggle-btn" onclick="settings.toggle(this.firstElementChild);settings.setBool('autoSwitchTsk');">
+                    <img class="toggle" src="icons\toggle-off.svg">
+                </button>
             </div>
         </div>
     </div>
