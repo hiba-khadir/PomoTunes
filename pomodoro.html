@@ -22,7 +22,7 @@
             <p>music</p>
         </div></li>
         <li><div class="elmnt">
-            <button><img class="sun-mn-icon" src="icons/moon-svgrepo-com.svg"></button>
+            <button><img id="sun-mn-icon" src="icons/moon.svg"></button>
             <p>Dark-mode</p>
         </div></li>
         <li><div class="elmnt">
@@ -62,23 +62,23 @@
             <div class="tasks-control">
                 <div>Tasks</div>
                 <div class="buttons">
-                    <div class="tsk-button"></div>
-                    <div class="tsk-button"></div>
+                    <button class="tsk-button"></button>
+                    <button class="tsk-button"></button>
                 </div>
             </div>
             <div class="separator"></div>
-            <div id ="task-list">
+            <div id ="task-list">                        
                 <div class="add-task" id="add-task-btn" onclick="taskManager.add()">Add a task</div>
                 <div id="add-control">
-                    <input id="task-input" type="text" placeholder="What are you working on ?">
+                    <input class="task-input" id="task-input-add" type="text" placeholder="What are you working on ?">
                     <div class="est">Estimated cycles</div>
                     <div>
                         <input type="number" id="num-put">
-                        <button class="up-down">up</button>
-                        <button class="up-down">down</button>
+                        <button class="up-down" onclick="document.getElementById('num-put').value++">+</button>
+                        <button class="up-down" onclick="document.getElementById('num-put').value--">-</button>
                         <div class="cs-buttons">
                             <button class="cancel" onclick="taskManager.cancel();">cancel</button>
-                            <button class="save" onclick="taskManager.save();taskManager.render();">save</button>
+                            <button class="save" onclick=" if(taskManager.save()){taskManager.render();}">save</button>
                         </div>
                     </div>
                 </div>
@@ -130,19 +130,25 @@
 </div>
 <div class="overlay" id="background-overlay">
     <div class="background-page">
-        <div class="elmnt">
+        <div class="cont">
             <img class="pic-icon" src="icons/image-picture-svgrepo-com.svg">
-            <div class="set-container">
-                Background
-                <button class="close-btn" onclick="ui.closePage(document.getElementById('background-overlay'))"><img class="close-icn" src="icons/close.svg"></button>
-            </div>
+            <div>Background</div>
+            <button class="close-btn" onclick="ui.closePage(document.getElementById('background-overlay'))"><img class="close-icn" src="icons/close.svg"></button>
         </div>
         <div class="sep"></div>
-        <div class="Background-container">
-            <img class="bground" src="backgrounds/background.png">
-            <img class="bground" src="backgrounds/background2.png">
+        <div id="Background-container">
+            <img class="bground" src="backgrounds/1.png" onclick="backgroundPicker.chooseBg(0,this)">
+            <img class="bground" src="backgrounds/2.png" onclick="backgroundPicker.chooseBg(1,this)">
+            <img class="bground" src="backgrounds/3.png" onclick="backgroundPicker.chooseBg(2,this)">
+            <img class="bground" src="backgrounds/4.png" onclick="backgroundPicker.chooseBg(3,this)">
+            <img class="bground" src="backgrounds/5.png" onclick="backgroundPicker.chooseBg(4,this)">
             <div id="upload">
-                <img id="uld-icon" src="icons/upload-svgrepo-com.svg">
+                <input type="file" id="image-file" onchange="backgroundPicker.uploadBg()" hidden />
+                <label for="image-file" id="uld">
+                    <img id="uld-icon" src="icons/upload-svgrepo-com.svg">
+                    <div id="choose-file">choose-file</div>
+                </label>
+                <div id="drag-drop">or drag and drop image</div>
             </div>
         </div>
     </div>

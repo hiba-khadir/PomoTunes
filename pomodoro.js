@@ -1,7 +1,7 @@
 // App settings
 const settings = {
   lbInterval: 4,
-  cycleList: [1, 2, 3],
+  cycleList: [25, 5, 15],
   autoCheckTsk: 0,
   autoSwitchTsk: false,
   autoStrtPomo: false,
@@ -15,7 +15,6 @@ const settings = {
           this.lbInterval = inputElmnt.value;
         }
       })
-    
   },
   setBool(param){
     this[param] = !this[param];  
@@ -36,16 +35,39 @@ const settings = {
       toggleElmnt.src = "icons/toggle-off.svg";
     }
   }
-
 };
+const backgroundPicker ={
+  chosenBg : 0,
+  BgList : ['backgrounds/1.png', 'backgrounds/2.png' ,'backgrounds/3.png', 'backgrounds/4.png' , 'backgrounds/5.png' ],
 
+  //methods
+  chooseBg(index,bg){
+    let bodyElmnt = document.querySelector('body');
+    bodyElmnt.style.backgroundImage = `url(${backgroundPicker.BgList[index]})`;
+    bg.style.borderColor = '#98d486';
+    bg.style.borderWidth = '10px';   
+  },
+  uploadBg(){
+    let inputFile = document.getElementById('image-file');
+    let bgContElmnt = document.getElementById('Background-container');
+    if (inputFile.value) {
+      console.log(inputFile.files[0].name);
+      let url = window.URL.createObjectURL(inputFile.files[0])
+      this.BgList.push(url);
+      console.log(this.BgList);
+      if (inputFile.files[0]) {
+        bgContElmnt.innerHTML += `<img class="bground" src= ${url} onclick="backgroundPicker.chooseBg(${this.BgList.length -1},this)">`
+      }
+    }    
+  }
+};
 // Timer functionality
 const timer = {
   //params and status of the timer  
   pomoCount: 0,
   currCycle: 0,
-  timerDisp: { min: 0, sec: 3 },
-  totalSec: 3,
+  timerDisp: { min: 25, sec: 0 },
+  totalSec: 25*60,
   paused: 1,
   countDown: null,
 
@@ -127,7 +149,7 @@ const timer = {
 
 };
 
-// Task management functionality
+// task management functionality
 const taskManager = {
   tskShown: 0,
   tskSaved: 0,
@@ -147,31 +169,24 @@ const taskManager = {
   add() {
     let controlElmnt = document.getElementById("add-control");
     controlElmnt.style.display = "flex";
-    let taskInput = document.getElementById("task-input");
-
-    taskInput.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" && taskInput.value !== "") {
-        this.taskList.push(taskInput.value);
-        console.log(this.taskList);
-      }
-    });
+    let scrolElmnt = document.querySelector('')
   },
 
   save(){
-    let taskInput = document.getElementById("task-input");
+    let taskInput = document.getElementById("task-input-add");
     let pomoNum = document.getElementById('num-put');
     let controlElmnt = document.getElementById("add-control");
 
     //temp save of task and it's pomo number
     if (taskInput.value && pomoNum.value ) {
-        this.taskList.push([taskInput.value , pomoNum.value]);  
+        this.taskList.push([taskInput.value , pomoNum.value , 0]);  
         controlElmnt.style.display = "none";
         taskInput.value = '';
         pomoNum.value = '' ;
-        this.tskSaved = 1;
+        return 1
     }else{
-      this.saved = 0 ;
-    }    
+      return 0
+    }  
   },
   
   cancel(){
@@ -179,13 +194,13 @@ const taskManager = {
     controlElmnt.style.display = "none";
     taskInput.value = '';
     pomoNum.value = '' ; 
-    this.tskSaved = 0;
   },
 
   render(){
     let listElmnt = document.getElementById('task-list');
     listElmnt.innerHTML = '';
     let element ;
+    console.log(this.taskList);
     for (let i = 0; i< taskManager.taskList.length; i++) {   
       element = taskManager.taskList[i];  
       listElmnt.innerHTML += `<div class="task">
@@ -193,14 +208,18 @@ const taskManager = {
                                   <img class="check-box" src="icons/check-box-off.svg">
                                 </button>
                                 <div class="task-content">${element[0]}</div>
-                                <button class="param-button"><img class="param-icon"></button>
-                                <div class="pomos-count">${element[1]}</div>
+                                <div class = "cont">
+                                  <div class="pomos-count">${element[2]}</div>
+                                  <span class= "slash">/</span>
+                                  <div class="pomos-count">${element[1]}</div
+                                </div>
+                                <button class="param-button" onclick = "taskManager.modify(this)"><img class="param-icon" src="icons/params.svg"></button>
                               </div>
                               <div class="separator"></div>`
     }
     listElmnt.innerHTML += `<div class="add-task" id="add-task-btn" onclick="taskManager.add()">Add a task</div>
                               <div id="add-control">
-                                  <input id="task-input" type="text" placeholder="What are you working on ?">
+                                  <input class ="task-input" id = "task-input-add" type="text" placeholder="What are you working on ?">
                                   <div class="est">Estimated cycles</div>
                                   <div>
                                       <input type="number" id="num-put">
@@ -216,6 +235,49 @@ const taskManager = {
   
   },
 
+  modify(paramBut){
+
+    let tskElmnt = paramBut.closest('.task');
+    let ogElmntHTML = tskElmnt.innerHTML;
+    let index = this.order(tskElmnt);
+    //display edit panel
+    let temp = document.createElement('template');
+    temp.innerHTML = `<div id="params-control">
+                            <input class="task-input" type="text" value="${taskManager.taskList[index][0]}">
+                            <div class="est">Pomodoros</div>
+                            <div class="pomos-row">
+                                <input type="number"  class="act" value="${taskManager.taskList[index][2]}">
+                                <span class="slash">/</span>
+                                <input type="number"  class="esti" value ="${taskManager.taskList[index][1]}">
+                                <button class="up-down" onclick="this.previousElementSibling.value++">+</button>
+                                <button class="up-down" onclick="this.previousElementSibling.previousElementSibling.value--">-</button>
+                            </div>
+                            <div class="cs-buttons">
+                                <button class="delete" onclick="taskManager.delete(${index});taskManager.render();">Delete</button>
+                                <button class="cancel" onclick="taskManager.render();">Cancel</button>
+                                <button class="save" onclick="taskManager.resave(${index});taskManager.render();">Save</button>
+                            </div>
+                          </div>`.trim();
+    tskElmnt.replaceWith(temp.content.firstChild);
+  },
+
+  resave(index){
+    let contElmnt = document.getElementById('params-control');
+    let taskInElmnt = contElmnt.querySelector('.task-input');
+    let actElmnt = document.querySelector('.act');
+    let estiElmnt = document.querySelector('.esti');
+    
+    this.taskList[index] = [taskInElmnt.value , estiElmnt.value, actElmnt.value];
+  },
+  //get tasks order
+  order(taskElmnt) {
+    const allTasks = Array.from(taskElmnt.parentElement.querySelectorAll('.task'));
+    return allTasks.indexOf(taskElmnt);
+  },
+
+  delete(order){
+    this.taskList.splice(order,1);
+  },
   checkTask(button){
     const checkBox = button.querySelector('.check-box');
     if(
@@ -232,6 +294,7 @@ const taskManager = {
 };
 
 const ui = {
+  mode : 0,    //0 for light 1 for dark
   showSettings() {
     document.getElementById("settings-overlay").style.display = "flex";
   },
@@ -242,5 +305,18 @@ const ui = {
 
   closePage(ovlay) {
     ovlay.style.display = "none";
+  },
+  
+  darkLightMode(){
+    let iconElmnt = document.getElementById('sun-mn-icon');
+    if (!this.mode) {
+      //switch to dark mode
+      iconElmnt.src = 'icons/moon.svg';
+
+
+    }else{
+      iconElmnt.src = 'icons/moon.svg';
+    }
+    this.mode = !this.mode;
   }
 };
