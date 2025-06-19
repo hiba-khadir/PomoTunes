@@ -1,11 +1,11 @@
 // App settings
 const settings = {
-  lbInterval: 4,
-  cycleList: [25, 5, 15],
-  autoCheckTsk: 0,
-  autoSwitchTsk: false,
-  autoStrtPomo: false,
-  autoStrtBrk: false,
+  lbInterval: 2,
+  cycleList: [1, 1, 1],
+  autoCheckTsk: true,
+  autoSwitchTsk: true,
+  autoStrtPomo: true,
+  autoStrtBrk: true,
 
   //methodes
   setLbInt(inputElmnt){
@@ -26,6 +26,7 @@ const settings = {
           this.cycleList[cycle] = inputElmnt.value ;
         }
       })
+    timer.reset(); 
     
   },
   toggle(toggleElmnt) {
@@ -36,6 +37,7 @@ const settings = {
     }
   }
 };
+
 const backgroundPicker ={
   chosenBg : 0,
   BgList : ['backgrounds/1.png', 'backgrounds/2.png' ,'backgrounds/3.png', 'backgrounds/4.png' , 'backgrounds/5.png' ],
@@ -66,46 +68,88 @@ const timer = {
   //params and status of the timer  
   pomoCount: 0,
   currCycle: 0,
-  timerDisp: { min: 25, sec: 0 },
-  totalSec: 25*60,
+  timerDisp: { min: 0, sec: 30 },
+  totalSec: 30,
   paused: 1,
   countDown: null,
 
   //ops on timer
-  getTimerElmnt() {
-    return document.getElementById("timer");
-  },
-  
+
   //display and update
   render() {
-    const el = this.getTimerElmnt();
+    const el = document.getElementById("timer");
     el.innerHTML = `${String(this.timerDisp.min).padStart(2, '0')} : ${String(this.timerDisp.sec).padStart(2, '0')}`;
 
-    //update the timer
+    // Update the timer
     if (this.totalSec > 0) {
       this.totalSec--;
       this.timerDisp.min = Math.floor(this.totalSec / 60);
       this.timerDisp.sec = this.totalSec % 60;
     } else {
-
+      // Timer reached zero
       clearInterval(this.countDown);
-      //if it's a focus time
-      if (!this.currCycle) {
-        this.pomoCount++; 
-        this.displayCount();       
-      }
-      if (this.pomoCount % settings.lbInterval === 0) {
-        this.currCycle = 2; // long break
-      } else {
-        this.currCycle = 1 - this.currCycle;  //toggle bet 1 & 0
-      }
-        this.reset();
-        if ((!this.currCycle && settings.autoStrtPomo )|| (this.currCycle && settings.autoStrtBrk)) {
-            this.unpause();
+      
+      if (this.currCycle === 0) {
+        //inc count
+        this.pomoCount++;
+        this.displayCount();
+
+        // sync tasks
+        if (taskManager.taskList.length > 0) {
+          const currentTask = taskManager.taskList[0];
+          
+          // inc pomos of current task
+          if (settings.autoSwitchTsk && currentTask[2] < currentTask[1]) {
+            taskManager.taskList[0][2]++;
+            taskManager.render();
+          }
+
+          //if current task is completed
+          if (currentTask[2] >= currentTask[1]) {
+            //auto-switch
+            if (settings.autoSwitchTsk && taskManager.taskList.length > 1) {
+              const tskListElmnt = document.querySelectorAll('.task');
+              if (tskListElmnt.length > 1) {
+                taskManager.switchTsk(tskListElmnt[1]);
+                taskManager.render();
+              }
+            }
+            // auto-check 
+            if (settings.autoCheckTsk) {
+              const tskListElmnt = document.querySelectorAll('.task');
+              
+              if (tskListElmnt.length > 0) {
+                const checkBox = tskListElmnt[1].querySelector('.check-box');
+                if (checkBox && checkBox.src.includes('check-box-off.svg')) {
+                  taskManager.checkTask(tskListElmnt[0].querySelector('.check-button'));
+                }
+              }
+            }
+          }
         }
       }
-      console.log(this);
-    },
+
+      if (this.currCycle === 0) {
+        if (this.pomoCount % settings.lbInterval === 0) {
+          this.currCycle = 2; // Long break
+          ui.selectCycle(2);
+        } else {
+          this.currCycle = 1; // Short break
+        }
+      } else {
+        this.currCycle = 0; 
+      }
+      ui.selectCycle(this.currCycle);
+      //reset for next
+      this.reset();
+      
+      // Auto-start
+      if ((this.currCycle === 0 && settings.autoStrtPomo) || 
+          (this.currCycle !== 0 && settings.autoStrtBrk)) {
+        this.unpause();
+      }
+    }
+  },
 
   pause() {
     clearInterval(this.countDown);
@@ -154,6 +198,7 @@ const taskManager = {
   tskShown: 0,
   tskSaved: 0,
   taskList: [],
+  currentTsk: 0,     //index in taskList 
 
   toggle() {
     const panel = document.getElementById("task-panel");
@@ -169,7 +214,6 @@ const taskManager = {
   add() {
     let controlElmnt = document.getElementById("add-control");
     controlElmnt.style.display = "flex";
-    let scrolElmnt = document.querySelector('')
   },
 
   save(){
@@ -201,38 +245,54 @@ const taskManager = {
     listElmnt.innerHTML = '';
     let element ;
     console.log(this.taskList);
-    for (let i = 0; i< taskManager.taskList.length; i++) {   
-      element = taskManager.taskList[i];  
-      listElmnt.innerHTML += `<div class="task">
+    //first task with special style
+    if (this.taskList.length >= 1) {
+       element = this.taskList[0];
+       listElmnt.innerHTML += `<div class="task" id="curr-task">
+                                  <button class="check-button" onclick="taskManager.checkTask(this);">
+                                    <img class="check-box" src="icons/check-box-off.svg">
+                                  </button>
+                                  <div class="task-content">${element[0]}</div>
+                                  <div class = "cont">
+                                    <div class="pomos-count">${element[2]}</div>
+                                    <span class= "slash">/</span>
+                                    <div class="pomos-count">${element[1]}</div>
+                                    <button class="param-button" onclick = "taskManager.modify(this)"><img class="param-icon" src="icons/params.svg"></button>
+                                  </div>
+                                </div>
+                              <div class="separator"></div>`
+    }
+    for (let i = 1; i< taskManager.taskList.length;i++) {   
+      element = taskManager.taskList[i]; 
+      listElmnt.innerHTML += `<div class="task";taskManager.render();">
                                 <button class="check-button" onclick="taskManager.checkTask(this);">
                                   <img class="check-box" src="icons/check-box-off.svg">
                                 </button>
-                                <div class="task-content">${element[0]}</div>
+                                <div class="task-content" onclick="taskManager.switchTsk(this);taskManager.render()">${element[0]}</div>
                                 <div class = "cont">
                                   <div class="pomos-count">${element[2]}</div>
                                   <span class= "slash">/</span>
-                                  <div class="pomos-count">${element[1]}</div
+                                  <div class="pomos-count">${element[1]}</div>
+                                  <button class="param-button" onclick = "taskManager.modify(this)"><img class="param-icon" src="icons/params.svg"></button>
                                 </div>
-                                <button class="param-button" onclick = "taskManager.modify(this)"><img class="param-icon" src="icons/params.svg"></button>
                               </div>
                               <div class="separator"></div>`
-    }
+      }
     listElmnt.innerHTML += `<div class="add-task" id="add-task-btn" onclick="taskManager.add()">Add a task</div>
                               <div id="add-control">
-                                  <input class ="task-input" id = "task-input-add" type="text" placeholder="What are you working on ?">
+                                  <input class="task-input" id="task-input-add" type="text" placeholder="What are you working on ?">
                                   <div class="est">Estimated cycles</div>
                                   <div>
                                       <input type="number" id="num-put">
-                                      <button class="up-down">up</button>
-                                      <button class="up-down">down</button>
+                                      <button class="up-down" onclick="document.getElementById('num-put').value++">+</button>
+                                      <button class="up-down" onclick="document.getElementById('num-put').value--">-</button>
                                       <div class="cs-buttons">
                                           <button class="cancel" onclick="taskManager.cancel();">cancel</button>
-                                          <button class="save" onclick="taskManager.save();taskManager.render();">save</button>
+                                          <button class="save" onclick=" if(taskManager.save()){taskManager.render();}">save</button>
                                       </div>
                                   </div>
-                              </div>
-                          </div>`;
-  
+                              </div>`;
+    console.log(listElmnt.innerHTML);
   },
 
   modify(paramBut){
@@ -255,13 +315,13 @@ const taskManager = {
                             <div class="cs-buttons">
                                 <button class="delete" onclick="taskManager.delete(${index});taskManager.render();">Delete</button>
                                 <button class="cancel" onclick="taskManager.render();">Cancel</button>
-                                <button class="save" onclick="taskManager.resave(${index});taskManager.render();">Save</button>
+                                <button class="save" onclick="taskManager.saveChange(${index});taskManager.render();">Save</button>
                             </div>
                           </div>`.trim();
     tskElmnt.replaceWith(temp.content.firstChild);
   },
 
-  resave(index){
+  saveChange(index){
     let contElmnt = document.getElementById('params-control');
     let taskInElmnt = contElmnt.querySelector('.task-input');
     let actElmnt = document.querySelector('.act');
@@ -288,10 +348,20 @@ const taskManager = {
     else if(checkBox.src.endsWith('icons/check-box-off.svg')){
         checkBox.src = 'icons/check-box-on.svg'; //if off turn on 
     }
+  },
 
-}
+  switchTsk(taskContentElmnt){
+    let taskElmnt = taskContentElmnt.closest('.task');
+    let index = this.order(taskElmnt);
+    let data = this.taskList[index];
+    this.taskList.splice(index,1);
+    //add it to the start 
+    this.taskList.unshift(data);
+  }
     
 };
+
+
 
 const ui = {
   mode : 0,    //0 for light 1 for dark
@@ -305,6 +375,38 @@ const ui = {
 
   closePage(ovlay) {
     ovlay.style.display = "none";
+  },
+
+  //highlight the current cycle's button
+  selectCycle(cycle){
+
+    let speButtonElmnt ;
+    let nonSpe1 ;
+    let nonSpe2 ;
+    switch (cycle) {
+      case 0:
+        speButtonElmnt = document.getElementById('fc');
+        nonSpe1 = document.getElementById('sb'); 
+        nonSpe2 = document.getElementById('lb');
+        break;
+      case 1:
+        speButtonElmnt = document.getElementById('sb');
+        nonSpe1 = document.getElementById('fc'); 
+        nonSpe2 = document.getElementById('lb');
+        break
+      case 2:
+        speButtonElmnt = document.getElementById('lb');
+        nonSpe1 = document.getElementById('sb'); 
+        nonSpe2 = document.getElementById('fc');
+        break
+      default:
+        console.log('Error cycle doesn\'t exist') ;
+        return
+        break;
+    }
+    speButtonElmnt.style.backgroundColor = 'Var(--accent-color)';
+    nonSpe1.style.backgroundColor = 'Var(--main-color-light)';
+    nonSpe2.style.backgroundColor = 'Var(--main-color-light)';
   },
   
   darkLightMode(){
