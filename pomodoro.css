@@ -92,7 +92,7 @@ nav ul{
     display: flex;
     align-items: center;
 }
-.elmnt button , .close-btn ,.cancel, .delete, .toggle-btn , .param-button{
+.elmnt button , .close-btn ,.cancel, .delete, .toggle-btn , .param-button ,.but ,.np-btn{
     background-color: var(--button-transparent);
     border-width: 0;
     box-shadow: none !important;
@@ -501,8 +501,7 @@ main{
   align-items: center;
   z-index: 999;
 }
-
-.settings-page ,.background-page {
+.settings-page ,.background-page , .login-page ,.music-page{
   width: 360px;
   background-color: var(--background-color);
   display: flex;
@@ -516,12 +515,15 @@ main{
 .background-page{
     width: fit-content;
 }
-.cont{
+.cont,.title{
     display: flex;
     align-items: center;
     justify-content: flex-start;
 }
 .cont>:last-child{
+    margin-left: auto;
+}
+.title>:last-child{
     margin-left: auto;
 }
 .close-icn {
@@ -634,4 +636,130 @@ main{
 #drag-drop{
     color: var(--text-secondary);
     font-size: 12px;
+}
+.vertical-cont{
+    display: flex;
+    flex-direction: column;
+}
+/*-------Music picker styles ---------*/
+.title{
+    margin: 0.3rem 0;
+}
+.play-song-icn{
+    height: 1.5rem;
+    margin-right: 0.4rem;
+}
+.delete-song-icn{
+    height: 1.5rem;
+    opacity: 0.8;
+}
+.now-playing-player {
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 1.5rem;
+}
+.np-progress {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.bar-bg {
+  flex: 1;
+  height: 6px;
+  background-color: var(--input-bg-alt);
+  border-radius: 3px;
+  margin: 0 8px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background-color: var(--accent-color);
+  border-radius: 3px;
+}
+
+.np-controls {
+  display: flex;
+  justify-content: start;
+  gap: 10px;
+}
+.np-controls>:last-child{
+    margin-left: auto;
+}
+.np-btn img {
+  height: 1.3rem;
+  opacity: 0.8;
+}
+/*add a song related styles and stufff*/
+.add-song-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.song-search-input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border-separator);
+  background-color: var(--input-bg);
+  color: var(--text-muted);
+  font-size: 14px;
+  outline: none;
+}
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background-color: var(--main-color-light);
+  border: 1px solid var(--border-separator);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+}
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+}
+.result-text {
+  display: flex;
+  flex-direction: column;
+}
+.song-name {
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+.artist-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.add-btn {
+  background-color: var(--accent-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  width: 26px;
+  height: 26px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.add-btn:hover {
+  background-color: var(--button-hover-light);
+  color: black;
+}
+#Playlist{
+    display: flex;
+    flex-direction: column;
+    margin-top: 1rem;
 }

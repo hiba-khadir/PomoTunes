@@ -6,7 +6,7 @@
     <title>Pomodoro</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='pomodoro.css'>
-    <script src="pomodoro.js"></script>
+    <script src="./scripts/pomodoro.js" type="module"></script>
 </head>
 <body>
  <nav>
@@ -18,7 +18,7 @@
             </div>
         </li>
         <li><div class="elmnt">
-            <button><img class="music-icon" src="icons/music-note-svgrepo-com.svg"></button>
+            <button onclick="ui.showMusicPicker();"><img class="music-icon" src="icons/music-note-svgrepo-com.svg"></button>
             <p>music</p>
         </div></li>
         <li><div class="elmnt">
@@ -29,9 +29,11 @@
             <button id="bground-btn" onclick="ui.showBgroundPicker()"><img class="pic-icon" src="icons/image-picture-svgrepo-com.svg"></button>
             <p>Background</p>
         </div></li>
-        <li><button class="sign-in-button">Sign in</button></li>
+        <li><button class="sign-in-button" onclick="ui.showSignIn();">Sign in</button></li>
     </ul>
 </nav>
+
+<!---------------------------------------main page------------------------------------------------>
 <main>
     <div class="timer-panel">
         <div class="main-sqr">
@@ -86,6 +88,8 @@
         </div>
     </div>
 </main>
+
+<!---------------------------------settings pageee----------------------------------------------------->
 <div class="overlay" id="settings-overlay">
     <div class="settings-page">
         <div class="set-container">
@@ -96,9 +100,9 @@
         <div class="timer-sett">
             <div>Timer</div>
             <div class="set-time">
-                <div>Pomodoro <input type="number" class="time-input" value ="25" onclick="settings.setCycleDur(this,0)"></div>
-                <div>short break <input type="number" class="time-input" value ="5" onclick="settings.setCycleDur(this,1)"></div>
-                <div>long break <input type="number" class="time-input" value ="15" onclick="settings.setCycleDur(this,2)"></div>
+                <div>Pomodoro <input type="number" class="time-input" value ="25" oninput="settings.setCycleDur(this,0)"></div>
+                <div>short break <input type="number" class="time-input" value ="5" oninput="settings.setCycleDur(this,1)"></div>
+                <div>long break <input type="number" class="time-input" value ="15" oninput="settings.setCycleDur(this,2)"></div>
             </div>
             <div class="set-container">
                 <div>Auto start breaks</div>
@@ -110,7 +114,7 @@
                 <button class="toggle-btn" onclick="settings.toggle(this.firstElementChild);settings.setBool('autoStrtPomo'); " >
                     <img class="toggle" src="icons/toggle-off.svg">
                 </button>
-                <div>long break interval</div><input type="number" class="time-input" value ="4" onclick="settings.setLbInt(this)">
+                <div>long break interval</div><input type="number" class="time-input" value ="4" oninput="settings.setLbInt(this)">
             </div>
         </div>
         <div class="sep"></div>
@@ -128,6 +132,8 @@
         </div>
     </div>
 </div>
+
+<!--------------------------------------BACKGROUND PICKER PAGE--------------------->
 <div class="overlay" id="background-overlay">
     <div class="background-page">
         <div class="cont">
@@ -153,10 +159,87 @@
         </div>
     </div>
 </div>
+
+<!---------------------------------MUSIC PICKER----------------------->
+<div class="overlay" id="music-overlay">
+    <div class="music-page">
+        <div class="cont">
+            <img class="music-icon" src="icons/music-note-svgrepo-com.svg">
+            <div>Music</div>
+            <button class="close-btn" onclick="ui.closePage(document.getElementById('music-overlay'))"><img class="close-icn" src="icons/close.svg"></button>
+        </div>
+        <div class="sep"></div>
+        <div class = "vertical-cont">
+            <div class="now-playing-player">
+                <div>Do I wanna know - hozier</div>
+                <div class="np-progress">
+                    <span>0:00</span>
+                    <div class="bar-bg">
+                    <div class="bar-fill" style="width: 30%;"></div>
+                    </div>
+                    <span>1:02</span>
+                </div>
+                <div class="np-controls">
+                    <button class="np-btn"><img src="icons/skip-backward.svg"></button>
+                    <button class="np-btn"><img src="icons/play.svg" ></button>
+                    <button class="np-btn"><img src="icons/skip-forward.svg" ></button>
+                    <button class="np-btn"><img src="icons/mute.svg" ></button>
+                </div>
+            </div>
+
+            <div class="sep"></div>
+            <div>Add ambiant audios Or songs</div>
+            <div class="add-song-section">
+                <input type="text" placeholder="Search songs or audios..." class="song-search-input" oninput="handleSearch(this.value)">
+                
+                <div class="search-results" id="search-results">
+                    <!-- search results here -->
+                    <div class="result-item">
+                    <div class="result-text">
+                        <div class="song-name">Someone Like You</div>
+                        <div class="artist-name">Adele</div>
+                    </div>
+                    <button class="add-btn" onclick="addToPlaylist('Someone Like You', 'Adele')">+</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sep"></div>
+            <div>Your Playlist</div>
+            <div id="Playlist">
+                <div class="title">
+                    <button class="but"><img src="icons/play.svg" class="play-song-icn"></button>
+                    <div class="song-name">Song title</div>
+                    <button class="but"><img src="icons/close.svg" class="delete-song-icn"></button>
+                </div>
+                <div class="sep"></div>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<!-- ---------------------------SIGN IN / SIGN UP PAGE -------------------->
+    <div class="overlay" id="auth-overlay">
+        <div class="settings-page" id="auth-page">
+            <div class="cont">
+                <div>Sign in</div>
+                <button class="close-btn" onclick="ui.closePage(document.getElementById('auth-overlay'))"><img class="close-icn" src="icons/close.svg"></button>
+            </div>  
+            <div class="sep"></div>
+            <!--login form-->
+            <div class="vertical-cont">
+                <button>Login</button>
+                <button>Sign up</button>
+            </div>
+            <div><input type="email" id="email-auth" placeholder="Email"></div>
+            <div><input type="text" id="pw-auth" placeholder="Password" ></div>
+            <div>Forgot Password ?</div>
+            <button>Login</button>
+            <div>Don't have an account ? Sign-up now</div>
+            </div>
+        </div>
+ 
+
 </body>
-<script>
-    timerElmnt = document.getElementById('timer');
-    timerElmnt.innerHTML = `${String(timer.timerDisp.min).padStart(2, '0')} : ${String(timer.timerDisp.sec).padStart(2, '0')}`;
-    ui.selectCycle(timer.currCycle);
-</script>
 </html>
