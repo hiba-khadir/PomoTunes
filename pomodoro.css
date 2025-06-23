@@ -705,7 +705,7 @@ main{
   margin: 1rem 0;
 }
 
-.song-search-input {
+#song-search-input {
   padding: 10px;
   border-radius: 8px;
   border: 1px solid var(--border-separator);

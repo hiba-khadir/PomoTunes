@@ -190,7 +190,7 @@
             <div class="sep"></div>
             <div>Add ambiant audios Or songs</div>
             <div class="add-song-section">
-                <input type="text" placeholder="Search songs or audios..." class="song-search-input" oninput="handleSearch(this.value)">
+                <input type="text" placeholder="Search songs or audios..." id="song-search-input" oninput="searchSongDebounced();">
                 
                 <div class="search-results" id="search-results">
                     <!-- search results here -->

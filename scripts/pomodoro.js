@@ -3,6 +3,7 @@ import { ui , backgroundPicker } from "./ui.js";
 import { taskManager } from "./taskManager.js";
 import { music } from "./music.js";
 import { settings } from "./settings.js";
+import { searchSongDebounced } from "./music.js";
 
 //timer functionality
 export const timer = {
@@ -147,3 +148,4 @@ window.backgroundPicker = backgroundPicker ;
 window.music = music;
 window.settings = settings;
 window.taskManager = taskManager; // if exists
+window.searchSongDebounced = searchSongDebounced;
