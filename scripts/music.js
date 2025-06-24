@@ -67,6 +67,21 @@ export const music = {
         } 
     },
 
+    removeFromPlaylist(rmvBtnElmnt){
+        const songElmnt = rmvBtnElmnt.closest('.title');
+        if (songElmnt) {
+           let temp = {
+                id : songElmnt.querySelector('.identifier').innerHTML ,
+                title : songElmnt.querySelector('.song-name').innerHTML ,
+                artist : songElmnt.querySelector('.artist-name').innerHTML 
+            }
+            this.playlist.splice(this.playlist.indexOf(temp),1)
+            console.log(this.playlist);
+        }else{
+            console.log('song is null')
+        } 
+    },
+
     render(){
         let  playlistElmnt = document.getElementById('Playlist');
         playlistElmnt.innerHTML = '';
@@ -79,12 +94,12 @@ export const music = {
                                                 <div class="artist-name">${element.artist}</div>
                                                 <div class="identifier" hidden>${element.id}</div>
                                             </div>
-                                            <button class="add-rm">-</button>
+                                            <button class="add-rm" onclick="music.removeFromPlaylist(this);music.render();">-</button>
                                         </div>
                                         <div class="sep"></div>`
                                     
         }
-    }
+    },
 }
 
 
