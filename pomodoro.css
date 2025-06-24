@@ -512,6 +512,10 @@ main{
   box-shadow: 0 8px 20px var(--modal-shadow);
   font-family: 'Basic';
 }
+.music-page{
+    max-height: 500px;
+    overflow-y: scroll;
+}
 .background-page{
     width: fit-content;
 }
@@ -716,13 +720,15 @@ main{
   outline: none;
 }
 .search-results {
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 0.4rem;
   background-color: var(--main-color-light);
   border: 1px solid var(--border-separator);
   border-radius: 0.5rem;
   padding: 0.5rem;
+  max-height: 200px;
+  overflow-y: scroll;
 }
 .result-item {
   display: flex;
@@ -744,7 +750,7 @@ main{
   font-size: 12px;
   color: var(--text-secondary);
 }
-.add-btn {
+.add-rm {
   background-color: var(--accent-color);
   color: white;
   border: none;
@@ -763,4 +769,6 @@ main{
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
+    max-height: 150px;
+    overflow-y:scroll;
 }

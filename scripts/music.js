@@ -26,7 +26,10 @@ export const music = {
             try{
                 const songObj = await songResp.json();
                 let resultList = extract(songObj.data); 
-                console.log(resultList);      
+                console.log(resultList);    
+                //display the search results DOM
+                resultsElmnt.style.display = 'flex';
+                renederSearchResults(resultList , resultsElmnt);  
             }
             catch{
                 console.log('Parsing Error');
@@ -46,9 +49,45 @@ export const music = {
             timer = setTimeout(func,intervall,...args);
         } 
     },
-    debounceInt : 1000 ,
-    
+    debounceInt : 200 ,
+
+    //playlist methods
+    addToPlaylist(addBtnElmnt){
+        const resultElmnt = addBtnElmnt.closest('.result-item');
+        if (resultElmnt) {
+           let temp = {
+                id : resultElmnt.querySelector('.identifier').innerHTML ,
+                title : resultElmnt.querySelector('.song-name').innerHTML ,
+                artist : resultElmnt.querySelector('.artist-name').innerHTML 
+            }
+            this.playlist.push(temp);
+            console.log(this.playlist);
+        }else{
+            console.log('song is null')
+        } 
+    },
+
+    render(){
+        let  playlistElmnt = document.getElementById('Playlist');
+        playlistElmnt.innerHTML = '';
+        for (let i = 0; i < this.playlist.length; i++) {
+            const element = this.playlist[i];
+            playlistElmnt.innerHTML += `<div class="title">
+                                            <button class="but"><img src="icons/play.svg" class="play-song-icn"></button>
+                                            <div class="result-text">
+                                                <div class="song-name">${element.title}</div>
+                                                <div class="artist-name">${element.artist}</div>
+                                                <div class="identifier" hidden>${element.id}</div>
+                                            </div>
+                                            <button class="add-rm">-</button>
+                                        </div>
+                                        <div class="sep"></div>`
+                                    
+        }
+    }
 }
+
+
 //helper functions
 export const searchSongDebounced = music.debounce(music.debounceInt , music.searchSong);
 //extract only used feautres of the result search
@@ -60,9 +99,25 @@ export function extract(results){
                 extracted.push({
                     id : results[i].id ,
                     title : results[i].title, 
-                    artist: results[i].user?.name || "Unknown Artist"
+                    artist: results[i].user?.name || "unknown Artist"
                 })   
             }
         }
         return extracted;
     }
+export function renederSearchResults(results , resultsListElmnt) {
+    //initialize display
+    resultsListElmnt.innerHTML = ''; 
+    let elemnt ;   
+    for (let i = 0; i < results.length; i++){
+        elemnt = results[i];
+        resultsListElmnt.innerHTML += `<div class="result-item">
+                                            <div class="result-text">
+                                                <div class="song-name">${elemnt.title}</div>
+                                                <div class="artist-name">${elemnt.artist}</div>
+                                                <div class="identifier" hidden>${elemnt.id}</div>
+                                            </div>
+                                            <button class="add-rm" onclick="music.addToPlaylist(this);music.render();">+</button>
+                                        </div>`;
+    } 
+}
