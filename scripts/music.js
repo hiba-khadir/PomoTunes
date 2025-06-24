@@ -13,7 +13,6 @@ export const music = {
         let searchElmnt = document.getElementById('song-search-input');
         let resultsElmnt = document.getElementById('search-results');
         let searchQuery = searchElmnt.value.trim();
-        console.log(searchQuery);
 
         try{
             //fetch song from audius api
@@ -24,17 +23,17 @@ export const music = {
                     headers: this.headers
                 }
             );
-            console.log('try');
-            console.log(songResp);
             try{
                 const songObj = await songResp.json();
-                console.log(songObj);  
-            }catch{
-                console.log('error parsing')
+                let resultList = extract(songObj.data); 
+                console.log(resultList);      
+            }
+            catch{
+                console.log('Parsing Error');
             }
               
         }catch{
-            console.log('error');
+            console.log('Request Error');
         }
     },
 
@@ -50,4 +49,20 @@ export const music = {
     debounceInt : 1000 ,
     
 }
+//helper functions
 export const searchSongDebounced = music.debounce(music.debounceInt , music.searchSong);
+//extract only used feautres of the result search
+export function extract(results){
+        let extracted = [];
+        for (let i = 0; i < results.length; i++) {
+            //initialize the extracted list
+            if (results[i].id && results[i].title) {
+                extracted.push({
+                    id : results[i].id ,
+                    title : results[i].title, 
+                    artist: results[i].user?.name || "Unknown Artist"
+                })   
+            }
+        }
+        return extracted;
+    }

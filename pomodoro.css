@@ -653,14 +653,15 @@ main{
     height: 1.5rem;
     opacity: 0.8;
 }
-.now-playing-player {
+#now-playing-player {
   border-radius: 12px;
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 12px;
   width: 100%;
   margin-bottom: 1.5rem;
 }
+#now-playing-player
 .np-progress {
   display: flex;
   align-items: center;
