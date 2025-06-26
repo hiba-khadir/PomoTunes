@@ -1,5 +1,6 @@
 export const music = {
     playlist : [],
+    resultsList : [],
     currPlay : null,
 
     //headers for all requests
@@ -25,11 +26,11 @@ export const music = {
             );
             try{
                 const songObj = await songResp.json();
-                let resultList = extract(songObj.data); 
-                console.log(resultList);    
+                music.resultsList = extract(songObj.data); 
+                console.log(music.resultsList);    
                 //display the search results DOM
                 resultsElmnt.style.display = 'flex';
-                renederSearchResults(resultList , resultsElmnt);  
+                renederSearchResults(music.resultsList , resultsElmnt);
             }
             catch{
                 console.log('Parsing Error');
@@ -49,36 +50,33 @@ export const music = {
             timer = setTimeout(func,intervall,...args);
         } 
     },
-    debounceInt : 200 ,
+    debounceInt : 300 ,
 
     //playlist methods
     addToPlaylist(addBtnElmnt){
         const resultElmnt = addBtnElmnt.closest('.result-item');
         if (resultElmnt) {
-           let temp = {
-                id : resultElmnt.querySelector('.identifier').innerHTML ,
-                title : resultElmnt.querySelector('.song-name').innerHTML ,
-                artist : resultElmnt.querySelector('.artist-name').innerHTML 
-            }
-            this.playlist.push(temp);
-            console.log(this.playlist);
+           let ind = resultElmnt.querySelector('.index').innerHTML ;
+           //get the title from results list 
+           console.log(`index : ${ind}`);
+           console.log(`result list ${this.resultsList}`);
+           let temp = this.resultsList[ind];
+           temp.index = this.playlist.length;
+           this.playlist.push(temp);
+           console.log(this.playlist);
         }else{
-            console.log('song is null')
+            console.log('song is null');
         } 
     },
 
     removeFromPlaylist(rmvBtnElmnt){
         const songElmnt = rmvBtnElmnt.closest('.title');
         if (songElmnt) {
-           let temp = {
-                id : songElmnt.querySelector('.identifier').innerHTML ,
-                title : songElmnt.querySelector('.song-name').innerHTML ,
-                artist : songElmnt.querySelector('.artist-name').innerHTML 
-            }
-            this.playlist.splice(this.playlist.indexOf(temp),1)
+            let ind = songElmnt.querySelector('.index').innerHTML;
+            this.playlist.splice(ind,1)
             console.log(this.playlist);
         }else{
-            console.log('song is null')
+            console.log('song is null');
         } 
     },
 
@@ -88,11 +86,11 @@ export const music = {
         for (let i = 0; i < this.playlist.length; i++) {
             const element = this.playlist[i];
             playlistElmnt.innerHTML += `<div class="title">
-                                            <button class="but"><img src="icons/play.svg" class="play-song-icn"></button>
+                                            <button class="but" onclick="music.streamSong(this.parentElement)"><img src="icons/play.svg" class="play-song-icn"></button>
                                             <div class="result-text">
                                                 <div class="song-name">${element.title}</div>
                                                 <div class="artist-name">${element.artist}</div>
-                                                <div class="identifier" hidden>${element.id}</div>
+                                                <div class="index" hidden>${i}</div>
                                             </div>
                                             <button class="add-rm" onclick="music.removeFromPlaylist(this);music.render();">-</button>
                                         </div>
@@ -100,22 +98,42 @@ export const music = {
                                     
         }
     },
+
+    //stream 
+    async streamSong(titleElmnt){
+        // request to /stream endpoint
+        const ind = Number(titleElmnt.querySelector('.index').innerHTML);
+        console.log(`index ${ind}`);
+        const ID = this.playlist[ind].id ;
+        console.log(`id: ${ID}`);
+        try{
+            const response = await fetch(`https://discoveryprovider3.audius.co/v1/tracks/${ID}/stream?app_name=Pomodoro`);
+            console.log(response);
+
+        }
+        catch(error){
+            console.log('error sending request');
+        }
+    }
+
 }
-
-
 //helper functions
 export const searchSongDebounced = music.debounce(music.debounceInt , music.searchSong);
 //extract only used feautres of the result search
 export function extract(results){
         let extracted = [];
-        for (let i = 0; i < results.length; i++) {
+        let i = 0;
+        while (i < results.length) {
             //initialize the extracted list
-            if (results[i].id && results[i].title) {
+            if (results[i].id && results[i].title && results[i].is_streamable) {
                 extracted.push({
                     id : results[i].id ,
                     title : results[i].title, 
-                    artist: results[i].user?.name || "unknown Artist"
-                })   
+                    artist: results[i].user?.name || "unknown Artist",
+                    duration : results[i].duration ,
+                    index : i    //index in the results list
+                }) 
+                i++; 
             }
         }
         return extracted;
@@ -130,9 +148,10 @@ export function renederSearchResults(results , resultsListElmnt) {
                                             <div class="result-text">
                                                 <div class="song-name">${elemnt.title}</div>
                                                 <div class="artist-name">${elemnt.artist}</div>
-                                                <div class="identifier" hidden>${elemnt.id}</div>
+                                                <div class="index" hidden>${i}</div>
                                             </div>
                                             <button class="add-rm" onclick="music.addToPlaylist(this);music.render();">+</button>
                                         </div>`;
     } 
 }
+ 
