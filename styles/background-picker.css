@@ -52,3 +52,8 @@
 }
 
 /*---------responsive------------*/
+@media screen and (max-width: 500px) {
+    #Background-container{
+        grid-template-columns: 154px 154px;
+    }   
+}
