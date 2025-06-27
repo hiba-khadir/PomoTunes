@@ -1,0 +1,54 @@
+/*background picker page*/
+.bground{
+    height: 100px;
+    width: 150px;
+    border-radius: 5%;
+}
+#upload{
+    border: 2px dashed var(--border-upload);
+    padding: 1rem 0;
+    height: 64px;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+    align-items: center;
+    transition: 0.2s;
+    border-radius: 5%;
+    order: 9999;
+}
+#upload:hover{
+    background-color: var(--section-bg-hover);
+    cursor: pointer;
+}
+#uld-icon{
+    height: 24px;
+}
+#Background-container{
+    display: grid;
+    grid-template-columns: 154px 154px 154px;
+    gap:0.5rem;
+    margin: 0 1rem;
+}
+#choose-file{
+    margin-left: 0.5rem;    
+}
+#choose-file:hover{
+    cursor: pointer;
+}
+#uld{
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+#drag-drop{
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+.vertical-cont{
+    display: flex;
+    flex-direction: column;
+}
+
+/*---------responsive------------*/

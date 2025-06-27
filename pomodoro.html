@@ -5,14 +5,17 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Pomodoro</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='pomodoro.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='styles/main.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='styles/music-styles.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='styles/background-picker.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='styles/task-manager-styles.css'>
     <script src="./scripts/pomodoro.js" type="module"></script>
 </head>
 <body>
  <nav>
     <ul>
         <li>
-            <div class="logo">
+            <div id="logo" class="elmnt">
                 <img class="logo-img" src="icons/tomato-svgrepo-com.svg">
                 <p>Pomodoro</p>
             </div>
@@ -60,7 +63,7 @@
         </div>
     </div>
     <div id="task-panel">
-        <div class="main-list">
+        <div id="main-list">
             <div class="tasks-control">
                 <div>Tasks</div>
                 <div class="buttons">

@@ -10,15 +10,20 @@ export const taskManager = {
     if (this.tskShown) {
       panel.style.display = "none";
       this.tskShown = 0;
+      document.querySelector('.timer-panel').style.marginRight = '0';
     } else {
       panel.style.display = "flex";
       this.tskShown = 1;
+      document.querySelector('.timer-panel').style.marginRight = '2 rem';
     }
   },
 
   add() {
     let controlElmnt = document.getElementById("add-control");
     controlElmnt.style.display = "flex";
+    //scroll down 
+    const scrollableElement = document.getElementById('main-list');
+    scrollableElement.scrollTop = scrollableElement.scrollHeight;
   },
 
   save(){
@@ -146,6 +151,10 @@ export const taskManager = {
     let estiElmnt = document.querySelector('.esti');
     
     this.taskList[index] = [taskInElmnt.value , estiElmnt.value, actElmnt.value , this.taskList[index][3]];
+    //scroll down 
+    const scrollableElement = document.getElementById('main-list');
+    scrollableElement.scrollTop = scrollableElement.scrollHeight;
+    
   },
   //get tasks order
   order(taskElmnt) {
