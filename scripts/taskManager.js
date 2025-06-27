@@ -28,6 +28,7 @@ export const taskManager = {
 
     //temp save of task and it's pomo number
     if (taskInput.value && pomoNum.value ) {
+        //task element of tasklist attributes: task content, estimated pomos, actual pomos, task checked or not
         this.taskList.push([taskInput.value , pomoNum.value , 0 , 0]);  
         controlElmnt.style.display = "none";
         taskInput.value = '';
@@ -46,16 +47,23 @@ export const taskManager = {
   },
 
   render(){
+
     let listElmnt = document.getElementById('task-list');
+    //initialize 
     listElmnt.innerHTML = '';
     let element ;
-    console.log(this.taskList);
+    let checkSrc ;
     //first task with special style
     if (this.taskList.length > 0) {
        element = this.taskList[0];
+       if (element[3]) {
+        checkSrc =  'icons/check-box-on.svg';
+       }else{
+        checkSrc =  'icons/check-box-off.svg';
+       }
        listElmnt.innerHTML += `<div class="task" id="curr-task">
                                   <button class="check-button" onclick="taskManager.checkTask(this);">
-                                    <img class="check-box" src="icons/check-box-off.svg">
+                                    <img class="check-box" src=${checkSrc}>
                                   </button>
                                   <div class="task-content">${element[0]}</div>
                                   <div class = "cont">
@@ -69,9 +77,14 @@ export const taskManager = {
     }
     for (let i = 1; i< taskManager.taskList.length;i++) {   
       element = taskManager.taskList[i]; 
+       if (element[3]) {
+        checkSrc =  'icons/check-box-on.svg';
+       }else{
+        checkSrc =  'icons/check-box-off.svg';
+       }
       listElmnt.innerHTML += `<div class="task";taskManager.render();">
                                 <button class="check-button" onclick="taskManager.checkTask(this);">
-                                  <img class="check-box" src="icons/check-box-off.svg">
+                                  <img class="check-box" src=${checkSrc}>
                                 </button>
                                 <div class="task-content" onclick="taskManager.switchTsk(this);taskManager.render()">${element[0]}</div>
                                 <div class = "cont">
@@ -132,7 +145,7 @@ export const taskManager = {
     let actElmnt = document.querySelector('.act');
     let estiElmnt = document.querySelector('.esti');
     
-    this.taskList[index] = [taskInElmnt.value , estiElmnt.value, actElmnt.value];
+    this.taskList[index] = [taskInElmnt.value , estiElmnt.value, actElmnt.value , this.taskList[index][3]];
   },
   //get tasks order
   order(taskElmnt) {
@@ -144,15 +157,18 @@ export const taskManager = {
     this.taskList.splice(order,1);
   },
   checkTask(button){
+    const taskElmnt = button.closest('.task');
+    const index = this.order(taskElmnt);
     const checkBox = button.querySelector('.check-box');
     if(
         checkBox.src.endsWith('icons/check-box-on.svg')){ //if on turn off
         checkBox.src = 'icons/check-box-off.svg';
+        
     }
-
     else if(checkBox.src.endsWith('icons/check-box-off.svg')){
         checkBox.src = 'icons/check-box-on.svg'; //if off turn on 
     }
+    this.taskList[index][3] = ! this.taskList[index][3] ;
   },
 
   switchTsk(taskContentElmnt){
