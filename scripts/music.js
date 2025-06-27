@@ -15,29 +15,32 @@ export const music = {
         let searchElmnt = document.getElementById('song-search-input');
         let resultsElmnt = document.getElementById('search-results');
         let searchQuery = searchElmnt.value.trim();
-
-        try{
-            //fetch song from audius api
-            let songResp = await fetch(
-                `https://discoveryprovider.audius.co/v1/tracks/search?query=${searchQuery}&app_name=Pomodoro`,
-                {
-                    method: 'GET',
-                    headers: this.headers
-                }
-            );
+        if (!searchQuery) {
+            resultsElmnt.style.display = 'none';
+        }else{
             try{
-                const songObj = await songResp.json();
-                music.resultsList = extract(songObj.data);   
-                //display the search results DOM
-                resultsElmnt.style.display = 'flex';
-                renederSearchResults(music.resultsList , resultsElmnt);
+                //fetch song from audius api
+                let songResp = await fetch(
+                    `https://discoveryprovider.audius.co/v1/tracks/search?query=${searchQuery}&app_name=Pomodoro`,
+                    {
+                        method: 'GET',
+                        headers: this.headers
+                    }
+                );
+                try{
+                    const songObj = await songResp.json();
+                    music.resultsList = extract(songObj.data);   
+                    //display the search results DOM
+                    resultsElmnt.style.display = 'flex';
+                    renederSearchResults(music.resultsList , resultsElmnt);
+                }
+                catch{
+                    console.log('Parsing Error');
+                }
+                
+            }catch{
+                console.log('Request Error');
             }
-            catch{
-                console.log('Parsing Error');
-            }
-              
-        }catch{
-            console.log('Request Error');
         }
     },
 
