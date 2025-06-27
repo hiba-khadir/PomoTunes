@@ -513,8 +513,7 @@ main{
   font-family: 'Basic';
 }
 .music-page{
-    max-height: 500px;
-    overflow-y: scroll;
+    width: 400px;
 }
 .background-page{
     width: fit-content;
@@ -727,7 +726,7 @@ main{
   border: 1px solid var(--border-separator);
   border-radius: 0.5rem;
   padding: 0.5rem;
-  max-height: 200px;
+  max-height: 100px;
   overflow-y: scroll;
 }
 .result-item {
@@ -769,6 +768,6 @@ main{
     display: flex;
     flex-direction: column;
     margin-top: 1rem;
-    max-height: 150px;
+    max-height: 100px;
     overflow-y:scroll;
 }

@@ -172,13 +172,14 @@
         <div class = "vertical-cont">
             <div id="now-playing-player">
                 <div class="sep"></div>
-                <div>Do I wanna know - hozier</div>
+                <div id="title-playing">Do I wanna know - hozier</div>
                 <div class="np-progress">
-                    <span>0:00</span>
+                    <span id="start-time">0:00</span>
+                    <audio id="audio"></audio>
                     <div class="bar-bg">
-                    <div class="bar-fill" style="width: 30%;"></div>
+                    <div class="bar-fill" style="width: 0%;"></div>
                     </div>
-                    <span>1:02</span>
+                    <div id="dur">1:00</div>
                 </div>
                 <div class="np-controls">
                     <button class="np-btn"><img src="icons/skip-backward.svg"></button>

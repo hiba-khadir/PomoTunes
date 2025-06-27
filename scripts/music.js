@@ -99,6 +99,22 @@ export const music = {
         }
     },
 
+    configSongPlayer(audioURL , index){
+        console.log('config song player');
+        // show currently playing track 
+        document.getElementById('now-playing-player').style.display = 'flex';
+        const audioElmnt = document.getElementById('audio');
+        audioElmnt.src = audioURL ;
+        audioElmnt.autoplay = true ;
+        const track = music.playlist[index];
+        document.getElementById('title-playing').innerHTML = `${track.title} - ${track.artist}` ; 
+        const durElmnt = document.getElementById('dur');
+
+        if (durElmnt) {
+            durElmnt.innerHTML = `${Math.floor(track.duration / 60)}:${String(Math.floor(track.duration / 60)).padStart(2, '0')}`; ;
+            document.querySelector('.bar-fill').style.width = '0%';
+        }
+    },
     //stream 
     async streamSong(titleElmnt){
         // request to /stream endpoint
@@ -106,16 +122,23 @@ export const music = {
         console.log(`index ${ind}`);
         const ID = this.playlist[ind].id ;
         console.log(`id: ${ID}`);
+
         try{
             const response = await fetch(`https://discoveryprovider3.audius.co/v1/tracks/${ID}/stream?app_name=Pomodoro`);
-            console.log(response);
-
-        }
+            try {
+                const blobObj = await response.blob();
+                console.log(blobObj); 
+                const audioUrl = URL.createObjectURL(blobObj);
+                this.configSongPlayer(audioUrl , ind);
+            }
+            catch (error) {
+                console.log(error.message);
+            }
+        }    
         catch(error){
-            console.log('error sending request');
+            console.log(error.message);
         }
-    }
-
+    },
 }
 //helper functions
 export const searchSongDebounced = music.debounce(music.debounceInt , music.searchSong);
