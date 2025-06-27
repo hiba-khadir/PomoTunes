@@ -2,6 +2,7 @@ export const music = {
     playlist : [],
     resultsList : [],
     currPlay : null,
+    pausedAt : null, //stores where the curr playing audio was paused , if
 
     //headers for all requests
     headers :{
@@ -26,8 +27,7 @@ export const music = {
             );
             try{
                 const songObj = await songResp.json();
-                music.resultsList = extract(songObj.data); 
-                console.log(music.resultsList);    
+                music.resultsList = extract(songObj.data);   
                 //display the search results DOM
                 resultsElmnt.style.display = 'flex';
                 renederSearchResults(music.resultsList , resultsElmnt);
@@ -116,19 +116,23 @@ export const music = {
         }
     },
     //stream 
-    async streamSong(titleElmnt){
+    async streamSong(titleElmnt, index){
         // request to /stream endpoint
-        const ind = Number(titleElmnt.querySelector('.index').innerHTML);
-        console.log(`index ${ind}`);
-        const ID = this.playlist[ind].id ;
-        console.log(`id: ${ID}`);
-
+        let ind ;
+        let ID ;
+        if (titleElmnt) {
+            ind = Number(titleElmnt.querySelector('.index').innerHTML); 
+        }else{
+            ind = index;
+        }
+        ID = this.playlist[ind].id ;
         try{
             const response = await fetch(`https://discoveryprovider3.audius.co/v1/tracks/${ID}/stream?app_name=Pomodoro`);
             try {
                 const blobObj = await response.blob();
                 console.log(blobObj); 
                 const audioUrl = URL.createObjectURL(blobObj);
+                this.currPlay = ind ;
                 this.configSongPlayer(audioUrl , ind);
             }
             catch (error) {
@@ -139,6 +143,47 @@ export const music = {
             console.log(error.message);
         }
     },
+
+    pauseTrack(pauseBtn){
+        const audioElmnt = document.getElementById('audio');
+        const currentTime = audioElmnt.currentTime; 
+        audioElmnt.pause();
+        let temp = document.createElement('template');
+        temp.innerHTML = `<button class="np-btn" id="pause-play" onclick="music.resumeTrack(this);"><img src="icons/play.svg" ></button>`
+        pauseBtn.replaceWith(temp.content.firstElementChild);
+
+        // Store the time 
+        this.pausedAt = currentTime;
+        console.log(`Paused at: ${currentTime} seconds`);
+    },
+
+
+    resumeTrack(playBtn) {
+        //unpause a song
+        const audioElmnt = document.getElementById('audio');
+        if (this.pausedAt) {
+            audioElmnt.currentTime = this.pausedAt;
+        }
+        audioElmnt.play();
+        let temp = document.createElement('template');
+        temp.innerHTML = ` <button class="np-btn" id="pause-play" onclick="music.pauseTrack(this);">
+                                    <img src="icons/pause.svg" ></button>`;
+        playBtn.replaceWith(temp.content.firstElementChild)
+        this.pausedAt = null;
+    },
+
+    playNextTrack(){
+        if (this.currPlay < this.playlist.length - 1) {
+            this.currPlay++;
+            this.streamSong(null,this.currPlay);
+        }
+    },
+    playPrevTrack(){
+        if (this.currPlay > 0) {
+            this.currPlay--;
+            this.streamSong(null,this.currPlay);
+        }
+    }
 }
 //helper functions
 export const searchSongDebounced = music.debounce(music.debounceInt , music.searchSong);

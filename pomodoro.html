@@ -172,7 +172,7 @@
         <div class = "vertical-cont">
             <div id="now-playing-player">
                 <div class="sep"></div>
-                <div id="title-playing">Do I wanna know - hozier</div>
+                <div id="title-playing">title</div>
                 <div class="np-progress">
                     <span id="start-time">0:00</span>
                     <audio id="audio"></audio>
@@ -182,9 +182,9 @@
                     <div id="dur">1:00</div>
                 </div>
                 <div class="np-controls">
-                    <button class="np-btn"><img src="icons/skip-backward.svg"></button>
-                    <button class="np-btn"><img src="icons/play.svg" ></button>
-                    <button class="np-btn"><img src="icons/skip-forward.svg" ></button>
+                    <button class="np-btn" onclick="music.playPrevTrack()"><img src="icons/skip-backward.svg"></button>
+                    <button class="np-btn" id="pause-play" onclick="music.pauseTrack(this);"><img src="icons/pause.svg" ></button>
+                    <button class="np-btn" onclick="music.playNextTrack()"><img src="icons/skip-forward.svg" ></button>
                     <button class="np-btn"><img src="icons/mute.svg" ></button>
                 </div>
             </div>
