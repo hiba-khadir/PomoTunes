@@ -114,7 +114,13 @@ export const music = {
             durElmnt.innerHTML = `${Math.floor(track.duration / 60)}:${String(Math.floor(track.duration / 60)).padStart(2, '0')}`; ;
             document.querySelector('.bar-fill').style.width = '0%';
         }
+        //remove old event listener
+        audioElmnt.removeEventListener('timeupdate', music.updateProgressBar);
+        //update the progress bar 
+        audioElmnt.addEventListener('timeupdate', () => {music.updateProgressBar()});
     },
+
+
     //stream 
     async streamSong(titleElmnt, index){
         // request to /stream endpoint
@@ -194,6 +200,21 @@ export const music = {
             muteBtn.firstElementChild.src = 'icons/mute.svg';;
         }
         audioELmnt.muted = !audioELmnt.muted ;
+    },
+
+    updateProgressBar() {
+        const audioElmnt = document.getElementById('audio');
+        const barFill = document.querySelector('.bar-fill');
+        const startTimeElmnt = document.getElementById('start-time');
+        
+        if (audioElmnt.duration) {
+            // calc progress percentage
+            const progress = (audioElmnt.currentTime / audioElmnt.duration) * 100;
+            barFill.style.width = `${progress}%`;
+            
+            //current time display
+            startTimeElmnt.innerHTML = `${Math.floor(audioElmnt.currentTime / 60)}:${String(Math.floor(audioElmnt.currentTime % 60)).padStart(2, '0')}`;
+        }
     }
 }
 //helper functions
