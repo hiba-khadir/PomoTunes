@@ -69,7 +69,7 @@ button{
 /*header styles*/
 nav{ 
     position: sticky; 
-    width: 55%;
+    width: 50%;
     min-width:fit-content;
     margin: 0.7rem auto 0 auto;
     background-color: var(--background-color-op);
@@ -83,7 +83,7 @@ nav ul{
     width: 100%;
     list-style: none;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     align-items: center;  
     gap: 2rem;  
 }
@@ -97,13 +97,6 @@ nav ul{
     border-width: 0;
     box-shadow: none !important;
 }
-nav li:first-child{
-    margin-right: auto;
-}
-nav li:last-child{
-    margin-left: auto;
-}
-
 #logo{
     display: flex;
     align-items: center;
@@ -111,13 +104,6 @@ nav li:last-child{
 .logo-img{
     height: 2rem;
 }
-.sign-in-button{
-    padding: 0.5rem 1rem;
-    border-width: 0;
-    background-color: var(--accent-color);
-    
-}
-
 .music-icon{
     height:2rem;
     margin-right: 0.5rem;

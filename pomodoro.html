@@ -32,7 +32,6 @@
             <button id="bground-btn" onclick="ui.showBgroundPicker()"><img class="pic-icon" src="icons/image-picture-svgrepo-com.svg"></button>
             <p>Background</p>
         </div></li>
-        <li><button class="sign-in-button" onclick="ui.showSignIn();">Sign in</button></li>
     </ul>
 </nav>
 
@@ -66,10 +65,7 @@
         <div id="main-list">
             <div class="tasks-control">
                 <div>Tasks</div>
-                <div class="buttons">
-                    <button class="tsk-button"></button>
-                    <button class="tsk-button"></button>
-                </div>
+                <button class="tsk-button" onclick="taskManager.taskList = [];taskManager.render();">Clear all</button>
             </div>
             <div class="separator"></div>
             <div id ="task-list">                        
@@ -208,28 +204,5 @@
         </div>
     </div>
 </div>
-
-<!-- ---------------------------SIGN IN / SIGN UP PAGE -------------------->
-    <div class="overlay" id="auth-overlay">
-        <div class="settings-page" id="auth-page">
-            <div class="cont">
-                <div>Sign in</div>
-                <button class="close-btn" onclick="ui.closePage(document.getElementById('auth-overlay'))"><img class="close-icn" src="icons/close.svg"></button>
-            </div>  
-            <div class="sep"></div>
-            <!--login form-->
-            <div class="vertical-cont">
-                <button>Login</button>
-                <button>Sign up</button>
-            </div>
-            <div><input type="email" id="email-auth" placeholder="Email"></div>
-            <div><input type="text" id="pw-auth" placeholder="Password" ></div>
-            <div>Forgot Password ?</div>
-            <button>Login</button>
-            <div>Don't have an account ? Sign-up now</div>
-            </div>
-        </div>
- 
-
 </body>
 </html>
