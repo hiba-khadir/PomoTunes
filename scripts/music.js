@@ -183,6 +183,17 @@ export const music = {
             this.currPlay--;
             this.streamSong(null,this.currPlay);
         }
+    },
+
+    //mute and unmute audio
+    toggleVolume(muteBtn){
+        const audioELmnt = document.getElementById('audio');
+        if (audioELmnt.muted) {
+            muteBtn.firstElementChild.src = 'icons/unmute.png';
+        }else{
+            muteBtn.firstElementChild.src = 'icons/mute.svg';;
+        }
+        audioELmnt.muted = !audioELmnt.muted ;
     }
 }
 //helper functions
