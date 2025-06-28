@@ -21,7 +21,7 @@ export const music = {
             try{
                 //fetch song from audius api
                 let songResp = await fetch(
-                    `https://discoveryprovider.audius.co/v1/tracks/search?query=${searchQuery}&app_name=Pomodoro`,
+                    `https://discoveryprovider.audius.co/v1/tracks/search?query=${searchQuery}&app_name=PomoTunes`,
                     {
                         method: 'GET',
                         headers: this.headers
@@ -136,7 +136,7 @@ export const music = {
         }
         ID = this.playlist[ind].id ;
         try{
-            const response = await fetch(`https://discoveryprovider3.audius.co/v1/tracks/${ID}/stream?app_name=Pomodoro`);
+            const response = await fetch(`https://discoveryprovider3.audius.co/v1/tracks/${ID}/stream?app_name=PomoTunes`);
             try {
                 const blobObj = await response.blob();
                 console.log(blobObj); 
