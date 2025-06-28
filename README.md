@@ -8,28 +8,33 @@ built with html ,css and javaScript .
 ### Pomodoro Timer
 - Customizable work/break intervals (ex : 25/5, 50/10)
 - Progress tracking for each session
+  
  ![image](https://github.com/hiba-khadir/Pomodoro-website/blob/main/Demo-screenShots/landing-page.png)
 
 ### Task Manager
 - Add/delete/modify/check tasks , with expected Pomodoro cycles
 - Track completed cycles per task
 - select current task
+  
  ![image](https://github.com/hiba-khadir/Pomodoro-website/blob/main/Demo-screenShots/taskManger.png)
 
 ### Music Player
 - Search and stream music , with various titles from audius public api
 - Create playlists for focus sessions
 - Volume control and playback options
+  
   ![image](https://github.com/user-attachments/assets/902a2685-9d67-4780-908a-b6e6981ebcb9)
   
 ### Background Customization
 - Choose from built-in themes
 - Upload your own background images
+  
  ![image](https://github.com/hiba-khadir/Pomodoro-website/blob/main/Demo-screenShots/background-picker.png)
 
 ### Settings
 - Toggle dark/light mode *(Coming Soon)*
 - Custumize timer ( breaks interval ,auto start breaks/pomos..)
+  
   ![image](https://github.com/user-attachments/assets/937774f3-5d22-41e7-becd-f17d66d793d9)
 
 
