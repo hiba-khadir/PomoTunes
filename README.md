@@ -1,28 +1,31 @@
 # 🍅PomoTunes 
 
 A **Pomodoro Timer** with integrated task management, customizable music playlists, and visual themes to boost productivity. Combines focus intervals with personalized audio and backgrounds.
-
+built with html ,css and javaScript .
 
 ## Features
 
 ### Pomodoro Timer
 - Customizable work/break intervals (ex : 25/5, 50/10)
 - Progress tracking for each session
+ ![image](https://github.com/hiba-khadir/Pomodoro-website/blob/main/Demo-screenShots/landing-page.png)
 
 ### Task Manager
-- Add/delete tasks with expected Pomodoro cycles
+- Add/delete/modify/check tasks , with expected Pomodoro cycles
 - Track completed cycles per task
-- allow manual and automatic switching between tasks based on completed cycles
+- select current task
+ ![image](https://github.com/hiba-khadir/Pomodoro-website/blob/main/Demo-screenShots/taskManger.png)
 
 ### Music Player
 - Search and stream music , with various titles from audius public api
 - Create playlists for focus sessions
 - Volume control and playback options
   ![image](https://github.com/user-attachments/assets/902a2685-9d67-4780-908a-b6e6981ebcb9)
-
+  
 ### Background Customization
 - Choose from built-in themes
 - Upload your own background images
+ ![image](https://github.com/hiba-khadir/Pomodoro-website/blob/main/Demo-screenShots/background-picker.png)
 
 ### Settings
 - Toggle dark/light mode *(Coming Soon)*
@@ -67,7 +70,7 @@ pomodoro/
 ```bash
 git clone https://github.com/hiba-khadir/PomoTunes.git
 cd PomoTunes
-# open the HTML file
+# open the HTML file in a browser
 ```
 
 ---
